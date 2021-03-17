@@ -13,29 +13,6 @@ app.use(express.static('build'))
 morgan.token('content', (req, res) => JSON.stringify(req.body))
 app.use(morgan(':method :url :status :res[content-length] - :response-time :content'))
 
-let persons = [
-    {
-        id: 1,
-        name: "Arto Hellas",
-        number: "040-123456"
-    },
-    {
-        id: 2,
-        name: "Ada Lovelace",
-        number: "39-44-5323523"
-    },
-    {
-        id: 3,
-        name: "Dan Abramov",
-        number: "12-43-234345"
-    },
-    {
-        id: 4,
-        name: "Mary Poppendick",
-        number: "39-23-6423122"
-    }
-]
-
 app.get('/api/persons', (req, res) => {
     Person.find({}).then(persons => {
         res.json(persons)
@@ -78,7 +55,7 @@ app.post('/api/persons', (req, res) => {
     })
 
     person.save().then(savedPerson => {
-        res.json(person)
+        res.json(savedPerson)
     })
 })
 
