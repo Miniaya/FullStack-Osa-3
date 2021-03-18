@@ -5,7 +5,7 @@ const url = process.env.MONGODB_URI
 
 console.log('Connectiong to database')
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
-    .then(result => {
+    .then(() => {
         console.log('Connected to MongoDB')
     })
     .catch((error) => {
@@ -34,5 +34,5 @@ personSchema.set('toJSON', {
         delete returnedObject.__v
     }
 })
-    
+
 module.exports = mongoose.model('Person', personSchema)

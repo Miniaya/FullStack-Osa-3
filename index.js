@@ -1,4 +1,3 @@
-const { response } = require('express')
 require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
@@ -10,7 +9,7 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 app.use(express.static('build'))
-morgan.token('content', (req, res) => JSON.stringify(req.body))
+morgan.token('content', (req) => JSON.stringify(req.body))
 app.use(morgan(':method :url :status :res[content-length] - :response-time :content'))
 
 app.get('/api/persons', (req, res) => {
@@ -43,7 +42,7 @@ app.get('/api/persons/:id', (req, res, next) => {
 
 app.delete('/api/persons/:id', (req, res, next) => {
     Person.findByIdAndRemove(req.params.id)
-        .then(result => {
+        .then(() => {
             res.status(204).end()
         })
         .catch(error => next(error))
@@ -57,10 +56,8 @@ app.put('/api/persons/:id', (req, res, next) => {
         number: body.number,
     }
 
-    Person.findByIdAndUpdate(req.params.id, person, {new: true})
-        .then(updatedPerson => {
-            res.json(updatedPerson)
-        }) 
+    Person.findByIdAndUpdate(req.params.id, person, { new: true })
+        .then(updatedPerson => res.json(updatedPerson))
         .catch(error => next(error))
 })
 
